@@ -8,8 +8,8 @@
     <title>Making An Expense Tracker App</title>
 </head>
 <body>
-    <div class="container">
-        <div class="card m-3 p-3" style="font-weight: bold;">
+    <div class="container bg-dark">
+        <div class="card m-3 p-3 bg-dark text-white" style="font-weight: bold;">
             <h1 class="m-auto">All Expenses</h1>
 
             <form id="form">
@@ -29,7 +29,7 @@
             
             
         </form>
-        <ul class="list-group" id="itemslist">
+        <ul class="list-group mt-2" id="itemslist">
             
         </ul>
     </div>
@@ -40,15 +40,48 @@
     function storedata(e){
         e.preventDefault();
         const expense=e.target.expense.value
-        const description=e.target.des.value;
+        const description=e.target.des.value
         const category=e.target.cat.value
         const obj={
             expense,
             description,
             category
         }
-        localStorage.setItem('expense',JSON.stringify(obj))
-    }       
+        localStorage.setItem(obj.description,JSON.stringify(obj))
+        showonscreen(obj)
+    }   
+    function showonscreen(obj){
+        const parent=document.getElementById('itemslist')
+        const li=document.createElement('li')
+        li.textContent=` Spend money for ${obj.description}  ${obj.category} is ${obj.expense} `
+        li.className='list-group-item bg-primary text-white m-2'
+        li.style.listStyle='none'
+        // parent.innerHTML=`<li>${obj.expense}  ${obj.description}  ${obj.category}</li>`
+        parent.appendChild(li)
+        const delbtn=document.createElement('input')
+        delbtn.type='button'
+        delbtn.value='Delete'
+        delbtn.className='bg-danger border m-2 border-dark rounded text-white float-right'
+        li.appendChild(delbtn)
+        parent.appendChild(li)
+        delbtn.onclick=()=>{
+            localStorage.removeItem(obj.description)
+            parent.removeChild(li)
+        }
+        editbtn=document.createElement('input')
+        editbtn.type='button'
+        editbtn.value='Edit'
+        editbtn.className='bg-warning border border-dark rounded text-white float-right m-2'
+        li.appendChild(editbtn)
+        parent.appendChild(li)
+        editbtn.onclick=()=>{
+            localStorage.removeItem(obj.description)
+            parent.removeChild(li)
+            document.getElementById('expense').value=obj.expense
+            document.getElementById('des').value=obj.description
+            document.getElementById('cat').value=obj.category
+        }
+    }    
 </script>
 </body>
 </html>
