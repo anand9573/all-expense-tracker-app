@@ -42,9 +42,12 @@
         const expense=e.target.expense.value
         const description=e.target.des.value;
         const category=e.target.cat.value
-        localStorage.setItem('Expense',expense)
-        localStorage.setItem('Description',description)
-        localStorage.setItem('Category',category)
+        const obj={
+            expense,
+            description,
+            category
+        }
+        localStorage.setItem('expense',JSON.stringify(obj))
     }       
 </script>
 </body>
